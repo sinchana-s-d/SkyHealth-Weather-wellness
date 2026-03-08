@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHealth - Weather & Wellness</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Leaflet for maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Simple emoji favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌤️</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-cloud-sun"></i> SkyHealth</h1>
+            <p>Real-time weather for any location</p>
+        </header>
+
+        <main>
+            <!-- Search Section -->
+            <div class="search-section">
+                <div class="search-box">
+                    <input type="text" id="city-input" placeholder="Enter city name..." autofocus>
+                    <button id="search-btn"><i class="fas fa-search"></i> Search</button>
+                </div>
+                <button id="location-btn" class="location-btn">
+                    <i class="fas fa-location-dot"></i> Use My Location
+                </button>
+                
+                <!-- Voice Search -->
+                <div class="voice-search-container">
+                    <button id="voice-search-btn" class="voice-search-btn">
+                        <i class="fas fa-microphone"></i> Voice Search
+                    </button>
+                    <span id="voice-status">Click mic to search</span>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Fetching weather data...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="error-message" class="error-message hidden"></div>
+
+            <!-- Current Weather Section -->
+            <div id="weather-display" class="weather-display hidden">
+                <div class="current-weather">
+                    <div class="location-info">
+                        <h2 id="city-name">--</h2>
+                        <p id="date"></p>
+                    </div>
+                    
+                    <div class="weather-main">
+                        <div class="temperature-section">
+                            <div class="temp-unit-toggle">
+                                <button id="celsius-btn" class="unit-btn active">°C</button>
+                                <button id="fahrenheit-btn" class="unit-btn">°F</button>
+                            </div>
+                            <div class="temp-display">
+                                <span id="temperature">--</span>
+                                <span id="temp-unit">°C</span>
+                            </div>
+                        </div>
+                        
+                        <div class="weather-icon-section">
+                            <img id="weather-icon" src="" alt="weather icon">
+                            <p id="weather-description">--</p>
+                        </div>
+                    </div>
+
+                    <div class="weather-details">
+                        <div class="detail-card">
+                            <i class="fas fa-temperature-low"></i>
+                            <span class="detail-label">Feels Like</span>
+                            <span id="feels-like" class="detail-value">--°</span>
+                        </div>
+                        <div class="detail-card">
+                            <i class="fas fa-tint"></i>
+                            <span class="detail-label">Humidity</span>
+                            <span id="humidity" class="detail-value">--%</span>
+                        </div>
+                        <div class="detail-card">
+                            <i class="fas fa-wind"></i>
+                            <span class="detail-label">Wind Speed</span>
+                            <span id="wind-speed" class="detail-value">-- km/h</span>
+                        </div>
+                        <div class="detail-card">
+                            <i class="fas fa-compress-alt"></i>
+                            <span class="detail-label">Pressure</span>
+                            <span id="pressure" class="detail-value">-- hPa</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hourly Forecast -->
+                <div class="forecast-section">
+                    <h3><i class="fas fa-clock"></i> Hourly Forecast</h3>
+                    <div id="hourly-forecast" class="hourly-container"></div>
+                </div>
+
+                <!-- 7-Day Forecast -->
+                <div class="forecast-section">
+                    <h3><i class="fas fa-calendar-week"></i> 7-Day Forecast</h3>
+                    <div id="daily-forecast" class="daily-container"></div>
+                </div>
+                
+                <!-- Rain & Weather Alerts Section -->
+                <div id="alerts-section" class="alerts-section hidden">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Rain & Weather Alerts</h3>
+                    <div id="alerts-container" class="alerts-container"></div>
+                </div>
+                
+                <!-- Weather Health Advice Section -->
+                <div id="health-advice-section" class="health-advice-section hidden">
+                    <h3><i class="fas fa-heartbeat"></i> Weather Wellness Tips</h3>
+                    <div id="health-advice-content"></div>
+                </div>
+                
+                <!-- Weather Map Section -->
+                <div id="weather-map-section" class="weather-map-section hidden">
+                    <h3><i class="fas fa-map-marked-alt"></i> Weather Map</h3>
+                    <div id="map-container"></div>
+                </div>
+            </div>
+            
+            <!-- Popular Cities -->
+            <div id="popular-cities-section" class="popular-cities-section">
+                <p>Popular cities:</p>
+                <div class="city-chips" id="popular-cities-container"></div>
+            </div>
+            
+            <!-- Search History Section -->
+            <div id="history-section" class="history-section">
+                <h3><i class="fas fa-history"></i> 10-Day Search History</h3>
+                <div id="history-container" class="history-container"></div>
+                <button id="clear-history-btn" class="clear-history-btn hidden">Clear All History</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by OpenWeather API | Data updates in real-time</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
